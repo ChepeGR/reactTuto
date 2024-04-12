@@ -11,8 +11,7 @@ function App() {
 
   return (
     <>
-      <SudamovieCardRenderer 
-      movies={movies}></SudamovieCardRenderer>
+      <SudamovieCardRenderer movies={movies}></SudamovieCardRenderer>
     </>
   )
 }
