@@ -1,13 +1,13 @@
 //autor, año 
-import {Card , CardMedia, CardContent, Typography, CardActions, Button, Grid, AppBar, Toolbar, IconButton, Link    } from "@mui/material"
+import {Card , CardMedia, CardContent, Typography, CardActions, Button} from "@mui/material"
 import { Hd as HdIcon } from '@mui/icons-material';
-import SearchIcon from '@mui/icons-material/Search';
 import React, { useState } from "react";
 import SudaMovieFooter from "../sudamovieFooter/SudaMovieFooter";
+import SudaMovieAppBar from "../sudaMovieAppBar/SudaMovieAppBar";
 
 
 interface Movie {
-    movieName?: string;
+    movieName: string;
     director?: string;
     releaseYear?: number;
     description?: string;
@@ -18,11 +18,11 @@ interface Movie {
     imagen?: any;
 }
   
-  interface MovieCardProps {
+interface SudaMovieCardProps {
       movie: Movie;
-    }
+}
 
-    const SudamovieCard: React.FC<MovieCardProps> = ({ movie }) =>  {
+const SudamovieCard: React.FC<SudaMovieCardProps> = ({ movie }) =>  {
     
 
         const [hidden, setHidden] = useState(true);
@@ -30,35 +30,31 @@ interface Movie {
         return (
         <div>
             <div>
-                <AppBar position="fixed" color="transparent">
-                    <Toolbar variant="regular">
-                        <Typography variant="h3" color="black"> SudaMovie </Typography>
-                        <IconButton edge="end" aria-label="menu" sx={{ mr: 20 }}>
-                            <SearchIcon />
-                        </IconButton>
-                    </Toolbar>
-                </AppBar>
-                <Card sx={{ width: 345}} >
+                <SudaMovieAppBar movie={undefined}></SudaMovieAppBar>
+                <Card sx={{ width: 345}} onMouseEnter={() => setHidden(false)}
+                        onMouseLeave={() => setHidden(true)}
+                        tabIndex={1}
+                        onFocus={() => console.log("Entre a la card con focvus de teclado")}>
                     <CardActions>
                         <CardMedia 
-                        onMouseEnter={() => setHidden(false)}
-                        onMouseLeave={() => setHidden(true)}
+                        
                         component="img"
                         image={movie.imagen}>
                             
                         </CardMedia>
                     </CardActions>
-                    {hidden? null : <><CardContent>
+                    {hidden? null : <><CardContent 
+                   >
                             <Typography variant="h3"> {movie.movieName}</Typography>
                             <Typography variant="h5"> {movie.director} </Typography>
                             <Typography variant="body1"> {movie.originalLanguage} </Typography>
-                            <Typography variant="body1"> {movie.subtitles} </Typography>
+                            <Typography variant="body1"> {movie.description} </Typography>
                             <Typography variant="h5" color="grey">{movie.releaseYear}</Typography>
                         </CardContent><CardActions>
                                 <Button href={movie.trailer} size="small">
                                     Watch Trailer
                                 </Button>
-                                <SudaMovieFooter text="Hola" icon={() => <HdIcon />} />
+                                <SudaMovieFooter text={undefined} icon={() => <HdIcon />} movie={movie}  />
                             </CardActions></>}
                         
                 </Card>
@@ -67,6 +63,6 @@ interface Movie {
         </div>
      
       );
-    }
+}
 
 export default SudamovieCard;
