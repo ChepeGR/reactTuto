@@ -1,17 +1,20 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import SudamovieCard from '../sudamovieCard/SudamovieCard';
+import SudaMovieAppBar from '../sudaMovieAppBar/SudaMovieAppBar';
 
   const SudamovieCardRenderer: React.FC<{ movies }> = ({ movies }) => {
     return (
+      <>
+      <SudaMovieAppBar/>
       <Grid container spacing={2} rowSpacing={1}>
         {movies.map((movie, index) => (
-          <Grid item>
-            <SudamovieCard key={index} movie={movie} />
-          </Grid>
-          
+
+          <SudamovieCard key={index} movie={movie} />
+
+
         ))}
-      </Grid>
+      </Grid></>
     );
   };
   export default SudamovieCardRenderer;

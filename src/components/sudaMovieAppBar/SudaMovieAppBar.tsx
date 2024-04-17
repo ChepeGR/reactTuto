@@ -3,13 +3,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import React from "react"
 
 interface SudaMovieCardProps {
-    movie: any;
+  
 }
 
-const SudaMovieAppBar: React.FC<SudaMovieCardProps> = ({movie})=>{
+const SudaMovieAppBar: React.FC<SudaMovieCardProps> = ({})=>{
     return(
         <div>
-            <AppBar position="fixed" color="transparent">
+            <AppBar position="fixed" color="secondary">
                     <Toolbar variant="regular">
                         <Typography variant="h3" color="black"> SudaMovie </Typography>
                         <IconButton edge="end" aria-label="menu" sx={{ mr: 20 }}>

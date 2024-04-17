@@ -1,8 +1,8 @@
-//autor, año 
-import {Card , CardMedia, CardContent, Typography, CardActions, Button} from "@mui/material"
+import {Card , CardMedia, CardContent, Typography, CardActions, Button, Grid} from "@mui/material"
 import { Hd as HdIcon } from '@mui/icons-material';
 import React, { useState } from "react";
 import SudaMovieFooter from "../sudamovieFooter/SudaMovieFooter";
+import {useFloating, useHover, useInteractions} from '@floating-ui/react';
 import SudaMovieAppBar from "../sudaMovieAppBar/SudaMovieAppBar";
 
 
@@ -23,46 +23,40 @@ interface SudaMovieCardProps {
 }
 
 const SudamovieCard: React.FC<SudaMovieCardProps> = ({ movie }) =>  {
-    
+    const [isOpen, setIsOpen] = useState(false);
 
-        const [hidden, setHidden] = useState(true);
+    const {refs, floatingStyles, context} = useFloating({
+        open: isOpen,
+        onOpenChange: setIsOpen,
+      });
 
-        return (
-        <div>
-            <div>
-                <SudaMovieAppBar movie={undefined}></SudaMovieAppBar>
-                <Card sx={{ width: 345}} onMouseEnter={() => setHidden(false)}
-                        onMouseLeave={() => setHidden(true)}
-                        tabIndex={1}
-                        onFocus={() => console.log("Entre a la card con focvus de teclado")}>
-                    <CardActions>
-                        <CardMedia 
-                        
-                        component="img"
-                        image={movie.imagen}>
-                            
-                        </CardMedia>
-                    </CardActions>
-                    {hidden? null : <><CardContent 
-                   >
-                            <Typography variant="h3"> {movie.movieName}</Typography>
-                            <Typography variant="h5"> {movie.director} </Typography>
-                            <Typography variant="body1"> {movie.originalLanguage} </Typography>
-                            <Typography variant="body1"> {movie.description} </Typography>
-                            <Typography variant="h5" color="grey">{movie.releaseYear}</Typography>
-                        </CardContent><CardActions>
-                                <Button href={movie.trailer} size="small">
-                                    Watch Trailer
-                                </Button>
-                                <SudaMovieFooter text={undefined} icon={() => <HdIcon />} movie={movie}  />
-                            </CardActions></>}
-                        
-                </Card>
-             </div>
-           
-        </div>
-     
-      );
+    const hover = useHover(context);
+
+    const {getReferenceProps, getFloatingProps} = useInteractions([
+        hover,
+      ]);
+
+    return (
+        <Grid item sx={{width: '50%'}}>
+            <Card ref={refs.setReference} {...getReferenceProps()} tabIndex={1}>
+                    <CardMedia sx={{height: '250px'}} component="img" image={movie.imagen}></CardMedia>
+                            {isOpen && (
+                                <>
+                            <CardContent ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} sx={{width : '30%', backgroundColor: 'beige'}}>
+                                <Typography variant="subtitle2"> {movie.movieName}</Typography>
+                                <Typography variant="body2"> {movie.director} </Typography>
+                                <Typography variant="body2"> {movie.originalLanguage} </Typography>
+                                <Typography variant="body2" paragraph> {movie.description} </Typography>
+                                <Typography variant="subtitle2" color="grey">{movie.releaseYear}</Typography>
+                                <Button href={movie.trailer} size="small">Watch Trailer </Button>
+                                <SudaMovieFooter text={undefined} icon={() => <HdIcon />} subtitles={movie.subtitles}/>
+                            </CardContent>
+                    </>)}
+            </Card>
+        </Grid>
+    );
 }
 
 export default SudamovieCard;
+
+
